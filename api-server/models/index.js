@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/tldr")
+const dbPath = process.env.MONGODB_URI || "mongodb://localhost/tldr"
+mongoose.connect(dbPath, {
+  useMongoClient: true
+})
 
 module.exports = {
   User: require('./User'),
