@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "TLDR",
+  "description": "Highlight and Share",
+  "version": "1.0",
+  "icons": {
+    "128": "/assets/cursor_128.png",
+    "48": "/assets/cursor_48.png",
+    "16": "/assets/cursor_16.png"
+  },
+  "content_scripts": [{
+    "css": ["style.css"],
+    "matches": ["<all_urls>"]
+  }]
+}

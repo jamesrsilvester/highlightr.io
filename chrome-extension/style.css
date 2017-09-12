@@ -1,0 +1,10 @@
+/*highlighter cursor styling*/
+
+::selection {
+  background: #8EFDB2 !important;
+  background-color: rgba(142, 253, 178, 0.7)!important;
+}
+
+* {
+  cursor: url(http://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
+}
