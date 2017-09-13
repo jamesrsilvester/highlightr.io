@@ -7,9 +7,8 @@ const getTitle = parseHelper.getTitle
 const create = function (req, res) {
   // create one new article
   // create new instance based on body data
-  const content = req.body.content;
+  const content = req.body.content; // store in var, as next line requires it
   const title = getTitle(content);
-  const articleSlug = slug(title);
   // TODO: check for uniqueness?
   if (!req.body._user) req.body._user = null
   let body = {
@@ -19,7 +18,7 @@ const create = function (req, res) {
     date: Date.now(),
     highlights: getHighlights(content),
     title: title,
-    slug: articleSlug
+    slug: slug(title)
   };
   Article.create(body, function (err, article) {
     // error handling
