@@ -1,3 +1,6 @@
+require('dotenv').config({path: './env/development.env'});  // assume dev!
+
+// warning: must require models AFTER configuring environment
 const db = require('./models')
 const slug = require('slug')
 
