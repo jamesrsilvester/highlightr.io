@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const dbPath = process.env.MONGODB_URI || "mongodb://localhost/tldr"
-mongoose.connect(dbPath, {
+mongoose.connect(process.env.MONGODB_URI, {
   useMongoClient: true
 })
 

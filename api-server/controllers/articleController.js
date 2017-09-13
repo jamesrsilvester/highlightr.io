@@ -1,13 +1,8 @@
 const slug = require('slug')
 const Article = require('../models').Article
-
-const getHighlights = function (content) {
-  return ['must', 'write', 'method', 'getHighlights'];
-}
-
-const getTitle = function (content) {
-  return 'TODO: write getTitle';
-}
+const parseHelper = require('./parseHelper')
+const getHighlights = parseHelper.getHighlights
+const getTitle = parseHelper.getTitle
 
 const create = function (req, res) {
   // create one new article
@@ -30,6 +25,8 @@ const create = function (req, res) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // on success...
+    // inject extra property, for rendering by extension
+    article.shareable = '${process.env.FRONTEND_URL}/${article.slug}';
     res.json(article);  // later should be url
   });
 }

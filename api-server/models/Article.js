@@ -9,6 +9,7 @@ const ArticleSchema = new Schema({
   slug: String, // slug to be used as url param
   content: String,  // markup
   highlights: [String], // plaintext contents of highlights
+  // shareable: String, // not in DB, but this will be responded to ext
   _user: { type: Schema.Types.ObjectId, ref: 'User' } // reference by ID
 })
 
