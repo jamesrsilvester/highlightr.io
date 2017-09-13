@@ -10,6 +10,7 @@
   },
   "content_scripts": [{
     "css": ["style.css"],
+    "js": ["payload.js"],
     "matches": ["<all_urls>"]
   }]
 }
