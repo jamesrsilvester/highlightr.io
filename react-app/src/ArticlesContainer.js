@@ -13,8 +13,6 @@ class ArticlesContainer extends Component {
         </div>
         <div className='row'>
           <SingleArticle/>
-          <SingleArticle/>
-          <SingleArticle/>
         </div>
       </div>
     )
