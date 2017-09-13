@@ -7,7 +7,6 @@ class SingleArticle extends Component {
         <div className='row container'>
           <div className='col s12 white z-depth-1'>
             <h3 id="articleTitle">Growth Engineer</h3>
-            <a href="https://jobs.lever.co/joinhonor.com/a4bda721-e1db-4f4a-81cf-c791a3ad59ad">joinhonor.com/jobs/growth-engineer</a>
             <p>
               To click or not to click, that it is the question: whether ‘tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles.
               <span className="hi">
@@ -23,6 +22,11 @@ class SingleArticle extends Component {
             <li>Proficient experience with HTML, CSS, javascript, and python</li>
             <li>Computer Science degree or BS with bootcamp certification Bonus points</li>
             <li>Good understanding of statistics · Experience with Django and Google adwords</li>
+            <div id="articleSource" className="center-align">
+              <p>Source:
+                <a href="https://jobs.lever.co/joinhonor.com/a4bda721-e1db-4f4a-81cf-c791a3ad59ad"> joinhonor.com/jobs/growth-engineer</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

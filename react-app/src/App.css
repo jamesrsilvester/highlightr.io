@@ -1,3 +1,4 @@
+
 /*For Div Testing Only*/
 .red {
   background-color: red;
@@ -12,7 +13,17 @@ ul{
   font-weight: bold;
 }
 
+body {
+  color: black;
+}
+
+
 .hi{
   background: #8EFDB2 !important;
-  background-color: rgba(142, 253, 178, 0.7)!important;
+  background-color: rgba(142, 253, 178, 0.6)!important;
+}
+
+.hi:hover{
+  background: #8EFDB2 !important;
+  background-color: rgba(142, 253, 178, 0.9)!important;
 }
