@@ -22,8 +22,8 @@ app.delete('/api/users/:user_id', controllers.user.destroy)
 
 app.get('/api/articles', controllers.article.index) // for testing only!
 app.post('/api/articles', controllers.article.create)
-app.get('/api/articles/:article_id', controllers.article.show)
-app.patch('/api/articles/:article_id', controllers.article.update)
-app.delete('/api/articles/:article_id', controllers.article.destroy)
+app.get('/api/articles/:slug', controllers.article.show)
+app.patch('/api/articles/:slug', controllers.article.update)
+app.delete('/api/articles/:slug', controllers.article.destroy)
 
 app.listen(port, () => console.log(`API Server running on port http://localhost:${port}.`))

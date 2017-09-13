@@ -6,6 +6,7 @@ const ArticleSchema = new Schema({
   title: String,  // read from <title></title>
   date: Date, // date highlighted
   url: String,
+  slug: String, // slug to be used as url param
   content: String,  // markup
   highlights: [String], // plaintext contents of highlights
   _user: { type: Schema.Types.ObjectId, ref: 'User' } // reference by ID

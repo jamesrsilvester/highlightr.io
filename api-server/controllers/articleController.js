@@ -1,3 +1,4 @@
+const slug = require('slug')
 const Article = require('../models').Article
 
 const getHighlights = function (content) {
@@ -8,15 +9,13 @@ const getTitle = function (content) {
   return 'TODO: write getTitle';
 }
 
-const getSlug = function (title) {
-  return 'TODO-write-getslug-method';
-}
-
 const create = function (req, res) {
   // create one new article
   // create new instance based on body data
   const content = req.body.content;
   const title = getTitle(content);
+  const articleSlug = slug(title);
+  // TODO: check for uniqueness?
   if (!req.body._user) req.body._user = null
   let body = {
     content: req.body.content,
@@ -25,7 +24,7 @@ const create = function (req, res) {
     date: Date.now(),
     highlights: getHighlights(content),
     title: title,
-    slug: getSlug(title)
+    slug: articleSlug
   };
   Article.create(body, function (err, article) {
     // error handling
@@ -48,7 +47,7 @@ const index = function (req, res) {
 
 const show = function (req, res) {
   // get one article and return
-  Article.findById(req.params.article_id, function (err, article) {
+  Article.findById(req.params.slug, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article not found?
@@ -58,7 +57,7 @@ const show = function (req, res) {
 
 const update = function (req, res) {
   // get one article and update it
-  Article.findById(req.params.article_id, function (err, article) {
+  Article.findById(req.params.slug, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article not found?
@@ -75,7 +74,7 @@ const update = function (req, res) {
 
 const destroy = function (req, res) {
   // destroy one article
-  Article.findByIdAndRemove(req.params.article_id, function (err, article) {
+  Article.findByIdAndRemove(req.params.slug, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article didn't exist?
