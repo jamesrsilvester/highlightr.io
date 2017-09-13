@@ -18,6 +18,15 @@
   font-size: large;
 }
 
+.red {
+  background-color: red;
+}
+
+.grey1{
+  background-color: #f7f8fa;
+}
+
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
