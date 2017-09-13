@@ -26,8 +26,9 @@ const create = function (req, res) {
     if (err) return res.status(500).json(err); // internal server error
     // on success...
     // inject extra property, for rendering by extension
-    article.shareable = '${process.env.FRONTEND_URL}/${article.slug}';
-    res.json(article);  // later should be url
+    article = article.toObject(); // convert from mongoose doc to js object
+    article.shareable = process.env.FRONTEND_URL + '/' + article.slug;
+    res.json(article);
   });
 }
 
@@ -47,7 +48,6 @@ const show = function (req, res) {
   Article.findOne({slug: req.params.slug}, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
-    // TODO: check for article not found?
     res.json(article);
   })
 }
@@ -71,11 +71,11 @@ const update = function (req, res) {
 
 const destroy = function (req, res) {
   // destroy one article
-  Article.remove({slug: req.params.slug}, function (err, article) {
+  Article.remove({slug: req.params.slug}, function (err, msg) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article didn't exist?
-    res.json(article);
+    res.json(msg);
   })
 }
 
