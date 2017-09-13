@@ -2,13 +2,17 @@
   "name": "tldr-api",
   "version": "0.1.0",
   "description": "tldr: Node.js API server",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.18.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.11",
+    "slug": "^0.9.1"
   }
 }
