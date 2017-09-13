@@ -47,7 +47,7 @@ const index = function (req, res) {
 
 const show = function (req, res) {
   // get one article and return
-  Article.findById(req.params.slug, function (err, article) {
+  Article.findOne({slug: req.params.slug}, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article not found?
@@ -57,7 +57,7 @@ const show = function (req, res) {
 
 const update = function (req, res) {
   // get one article and update it
-  Article.findById(req.params.slug, function (err, article) {
+  Article.findOne({slug: req.params.slug}, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article not found?
@@ -74,7 +74,7 @@ const update = function (req, res) {
 
 const destroy = function (req, res) {
   // destroy one article
-  Article.findByIdAndRemove(req.params.slug, function (err, article) {
+  Article.remove({slug: req.params.slug}, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
     // TODO: check for article didn't exist?
