@@ -61,13 +61,13 @@ function selectionHandler (e) {
 
 function turnOn () {
   state.isActive = true;
-  document.querySelector('body').className = 'highlightr';
+  document.querySelector('body').classList.add('highlightr');
   document.addEventListener('mouseup', selectionHandler);
 }
 
 function turnOff () {
   state.isActive = false;
-  document.querySelector('body').className = '';
+  document.querySelector('body').classList.remove('highlightr');
   document.removeEventListener('mouseup', selectionHandler);
 }
 
