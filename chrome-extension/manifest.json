@@ -8,9 +8,13 @@
     "48": "/assets/cursor_48.png",
     "16": "/assets/cursor_16.png"
   },
+  "permissions": [
+    "http://*/",
+    "https://*/"
+  ],
   "content_scripts": [{
     "css": ["style.css"],
-    "js": ["payload.js"],
+    "js": ["jquery.js", "payload.js"],
     "matches": ["<all_urls>"]
   }]
 }

@@ -6,13 +6,15 @@ const getTitle = parseHelper.getTitle
 
 const create = function (req, res) {
   // create one new article
+  console.log('Article create route called.');
+  console.log(req.body.content);
   // create new instance based on body data
   const content = req.body.content; // store in var, as next line requires it
   const title = getTitle(content);
   // TODO: check for uniqueness?
   if (!req.body._user) req.body._user = null
   let body = {
-    content: req.body.content,
+    content: content,
     _user: req.body._user,
     url: req.body.url,
     date: Date.now(),
@@ -20,6 +22,11 @@ const create = function (req, res) {
     title: title,
     slug: slug(title)
   };
+
+  // TODO: DELETE THIS!
+  const fs = require('fs');
+  fs.writeFile('./highlightr.html', content)//, encoding, callback);
+  // TODO: END
   Article.create(body, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
