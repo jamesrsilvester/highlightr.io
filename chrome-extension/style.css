@@ -1,8 +1,10 @@
 /*highlighter cursor styling*/
 
+/* get this working in context
 ::selection {
   background-color: rgba(142, 253, 178, 1)!important;
 }
+*/
 
 /*Unused due to pref for inline span styling*/
 /*.highlightr {

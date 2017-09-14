@@ -1,6 +1,9 @@
 const apiUrl = 'http://localhost:8080/api/articles/'
 
-let articleWasCreated = false;
+const state = {
+  mode: "POST", // after POSTing once, switch to PATCH
+  isActive: false // turn true on message from background.js
+}
 
 function highlight (selection) {
   const anchor = selection.anchorNode;
@@ -29,7 +32,7 @@ function ajaxPost (data) {
 }
 */
 
-document.addEventListener('mouseup', function (e) {
+function selectionHandler (e) {
   const selection = window.getSelection();
   if (selection.toString().length === 0) return;
   //chrome.runtime.sendMessage('Selection made');
@@ -43,32 +46,38 @@ document.addEventListener('mouseup', function (e) {
     _user: null,  // later set this from session
     url: document.location.href
   }
-  console.log($);
   let method; // either PATCH or POST, for AJAX
-  if (articleWasCreated) {
-    method = "PATCH";
-    // TODO: change URL
-  } else {
-    method = "POST";
-    // TODO: set articleWasCreated to true
-  }
   $.ajax({
-    method: method,
+    method: state.mode,
     url: 'http://localhost:8080/api/articles',
     data: data,
     success: (res) => {
+      state.mode = 'PATCH'; // don't POST next time
       alert('Your highlightr link is: ' + res.shareable);
     }
   });
-
   //ajaxPost(data);
-});
+}
+
+function turnOn () {
+  state.isActive = true;
+  document.querySelector('body').className = 'highlightr';
+  document.addEventListener('mouseup', selectionHandler);
+}
+
+function turnOff () {
+  state.isActive = false;
+  document.querySelector('body').className = '';
+  document.removeEventListener('mouseup', selectionHandler);
+}
+
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   // If the received message has the expected format...
-  if (msg.text === 'report_back') {
+  if (msg.message === 'clicked_browser_action') {
+    state.isActive ? turnOff() : turnOn();
     // Call the specified callback, passing
     // the web-page's DOM content as argument
-    sendResponse(document.all[0].outerHTML);
+    //sendResponse(document.all[0].outerHTML);
   }
 });
