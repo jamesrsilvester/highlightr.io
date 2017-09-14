@@ -6,6 +6,8 @@ const getTitle = parseHelper.getTitle
 
 const create = function (req, res) {
   // create one new article
+  console.log('Article create route called.');
+  console.log(req.body.content);
   // create new instance based on body data
   const content = req.body.content; // store in var, as next line requires it
   const title = getTitle(content);
