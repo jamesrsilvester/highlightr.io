@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {link} from 'react-router'
 
 class SingleArticle extends Component {
   render() {
