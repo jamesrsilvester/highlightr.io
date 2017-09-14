@@ -44,6 +44,14 @@ app.get('/api/articles/:slug', controllers.article.show)
 app.patch('/api/articles/:slug', controllers.article.update)
 app.delete('/api/articles/:slug', controllers.article.destroy)
 
+  /* TODO: Last Resort!
+app.get('/show/:slug', function (req, res) {
+  db.Article.find({slug: req.params.slug}, function(article){
+    res.sendFile(article);
+  })
+})
+*/
+
 const port = process.env.API_PORT
 
 app.listen(port, () => console.log(`API Server running on port http://localhost:${port}.`))
