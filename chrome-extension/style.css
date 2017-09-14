@@ -11,9 +11,9 @@
 
 .hovr:hover {
   /*background-color: rgba(142, 253, 178, 0.9)!important;*/
-  background-color: pink!important;
+  /*background-color: pink!important;*/
 }
 
-* {
+body.highlightr {
   cursor: url(http://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
 }

@@ -12,7 +12,7 @@ function highlight (selection) {
   const span = document.createElement('span');
   span.appendChild(slctn);
   span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
-  span.className = 'hovr';
+  // span.className = 'hovr';
   range.insertNode(span);
 }
 
