@@ -22,11 +22,11 @@ class SingleArticle extends Component {
             <li>Proficient experience with HTML, CSS, javascript, and python</li>
             <li>Computer Science degree or BS with bootcamp certification Bonus points</li>
             <li>Good understanding of statistics · Experience with Django and Google adwords</li>
-            <div id="articleSource" className="center-align">
-              <p>Source:
-                <a href="https://jobs.lever.co/joinhonor.com/a4bda721-e1db-4f4a-81cf-c791a3ad59ad"> joinhonor.com/jobs/growth-engineer</a>
-              </p>
-            </div>
+          </div>
+          <div id="articleSource" className="center-align grey1">
+            <p className="grey-text">Source:
+              <a href="https://jobs.lever.co/joinhonor.com/a4bda721-e1db-4f4a-81cf-c791a3ad59ad"> joinhonor.com/jobs/growth-engineer</a>
+            </p>
           </div>
         </div>
       </div>

@@ -1,18 +1,19 @@
 /*highlighter cursor styling*/
 
 ::selection {
-  background: #8EFDB2 !important;
-  background-color: rgba(142, 253, 178, 0.7)!important;
+  background-color: rgba(142, 253, 178, 1)!important;
 }
 
-.hightlightr {
+/*Unused due to pref for inline span styling*/
+/*.highlightr {
   background-color: rgba(142, 253, 178, 0.6)!important;
+}*/
+
+.hovr:hover {
+  /*background-color: rgba(142, 253, 178, 0.9)!important;*/
+  /*background-color: pink!important;*/
 }
 
-.hightlightr:hover {
-  background-color: rgba(142, 253, 178, 0.9)!important;
-}
-
-* {
+body.highlightr {
   cursor: url(http://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
 }

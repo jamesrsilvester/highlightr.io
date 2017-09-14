@@ -12,7 +12,7 @@ function highlight (selection) {
   const span = document.createElement('span');
   span.appendChild(slctn);
   span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
-  //span.className = 'highlightr';
+  // span.className = 'hovr';
   range.insertNode(span);
 }
 
@@ -33,7 +33,7 @@ document.addEventListener('mouseup', function (e) {
   const selection = window.getSelection();
   if (selection.toString().length === 0) return;
   //chrome.runtime.sendMessage('Selection made');
-  
+
   highlight(selection);
   // now clear selection
   selection.removeAllRanges();
@@ -60,7 +60,7 @@ document.addEventListener('mouseup', function (e) {
       alert('Your highlightr link is: ' + res.shareable);
     }
   });
- 
+
   //ajaxPost(data);
 });
 // Listen for messages
