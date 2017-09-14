@@ -1,5 +1,7 @@
 const apiUrl = 'http://localhost:8080/api/articles/'
 
+let articleWasCreated = false;
+
 function highlight (selection) {
   const anchor = selection.anchorNode;
   const focus = selection.focusNode;
@@ -9,10 +11,12 @@ function highlight (selection) {
   const slctn = range.extractContents();
   const span = document.createElement('span');
   span.appendChild(slctn);
-  span.setAttribute('style', 'background-color: yellow !important');
+  span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
+  //span.className = 'highlightr';
   range.insertNode(span);
 }
 
+/* TODO: vanillaJS solution
 function ajaxPost (data) {
   const request = new XMLHttpRequest();
   request.open('POST', apiUrl, true);
@@ -23,6 +27,7 @@ function ajaxPost (data) {
   console.log(data);
   request.send(data);
 }
+*/
 
 document.addEventListener('mouseup', function (e) {
   const selection = window.getSelection();
@@ -39,13 +44,21 @@ document.addEventListener('mouseup', function (e) {
     url: document.location.href
   }
   console.log($);
+  let method; // either PATCH or POST, for AJAX
+  if (articleWasCreated) {
+    method = "PATCH";
+    // TODO: change URL
+  } else {
+    method = "POST";
+    // TODO: set articleWasCreated to true
+  }
   $.ajax({
-    method: "POST",
+    method: method,
     url: 'http://localhost:8080/api/articles',
-    data: data
-  }, (res) => {
-    console.log('yay, we won!');
-    console.log(res);
+    data: data,
+    success: (res) => {
+      alert('Your highlightr link is: ' + res.shareable);
+    }
   });
  
   //ajaxPost(data);

@@ -14,7 +14,7 @@ const create = function (req, res) {
   // TODO: check for uniqueness?
   if (!req.body._user) req.body._user = null
   let body = {
-    content: req.body.content,
+    content: content,
     _user: req.body._user,
     url: req.body.url,
     date: Date.now(),
@@ -22,6 +22,11 @@ const create = function (req, res) {
     title: title,
     slug: slug(title)
   };
+
+  // TODO: DELETE THIS!
+  const fs = require('fs');
+  fs.writeFile('./highlightr.html', content)//, encoding, callback);
+  // TODO: END
   Article.create(body, function (err, article) {
     // error handling
     if (err) return res.status(500).json(err); // internal server error
