@@ -44,13 +44,16 @@ app.get('/api/articles/:slug', controllers.article.show)
 app.patch('/api/articles/:slug', controllers.article.update)
 app.delete('/api/articles/:slug', controllers.article.destroy)
 
-  /* TODO: Last Resort!
-app.get('/show/:slug', function (req, res) {
-  db.Article.find({slug: req.params.slug}, function(article){
-    res.sendFile(article);
+// show page
+app.get('/highlights/:slug', function (req, res) {
+  db.Article.findOne({slug: req.params.slug}, function(err, article){
+    if (err) res.status(500).json(err);
+    console.log('successfully found', article)
+    console.log(article.content);
+    console.log(typeof article.content)
+    res.send(article.content);
   })
 })
-*/
 
 const port = process.env.API_PORT
 
