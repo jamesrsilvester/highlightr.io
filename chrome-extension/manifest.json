@@ -1,5 +1,6 @@
 {
   "manifest_version": 2,
+
   "name": "highlightr.io",
   "description": "Highlight and Share",
   "version": "1.0",
@@ -9,9 +10,8 @@
     "16": "/assets/cursor_16.png"
   },
   "permissions": [
-    "http://*/",
-    "https://*/",
-    "activeTab"
+    "activeTab",
+    "contextMenus"
   ],
   "content_scripts": [{
     "css": ["style.css"],
@@ -20,8 +20,7 @@
   }],
 
   "background": {
-    "scripts": ["eventPage.js"],
-    "persistent": false
+    "scripts": ["eventPage.js","menu.js"]
   },
 
   "browser_action": {
