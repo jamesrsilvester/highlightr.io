@@ -33,7 +33,7 @@ const create = function (req, res) {
     // on success...
     // inject extra property, for rendering by extension
     article = article.toObject(); // convert from mongoose doc to js object
-    article.shareable = process.env.FRONTEND_URL + '/' + article.slug;
+    article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
     res.json(article);
   });
 }
