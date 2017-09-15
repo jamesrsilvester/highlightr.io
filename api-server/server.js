@@ -48,9 +48,6 @@ app.delete('/api/articles/:slug', controllers.article.destroy)
 app.get('/highlights/:slug', function (req, res) {
   db.Article.findOne({slug: req.params.slug}, function(err, article){
     if (err) res.status(500).json(err);
-    console.log('successfully found', article)
-    console.log(article.content);
-    console.log(typeof article.content)
     res.send(article.content);
   })
 })
