@@ -1,8 +1,29 @@
-const slug = require('slug')
+const slugify = require('slug') // to distinguish from noun variable name
 const Article = require('../models').Article
 const parseHelper = require('./parseHelper')
 const getHighlights = parseHelper.getHighlights
 const getTitle = parseHelper.getTitle
+
+const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
+  // track tries to prevent unending loop
+  tries = tries || 0;
+  if (tries > 10) {
+    console.log('Method `getUniqueSlug()` in articleController.js reached max number of tries!');
+    return callback({msg: 'tried to create unique slug too many times!'});
+  }
+  const slug = baseSlug + (postfix === '' ? '' : '-' + postfix); // don't render - if no postfix
+  Article.findOne({slug: slug}, function (err, article) {
+    if (err) {
+      callback(err);
+    } else if (article) {
+      getUniqueSlug(baseSlug, Date.now().toString(36), callback, tries + 1);  // postfix is function of time
+    } else {
+      console.log('found it!');
+      console.log(slug);
+      callback(null, slug);
+    }
+  });
+}
 
 const create = function (req, res) {
   // create one new article
@@ -11,8 +32,9 @@ const create = function (req, res) {
   // create new instance based on body data
   const content = req.body.content; // store in var, as next line requires it
   const title = getTitle(content);
-  // TODO: check for uniqueness?
-  if (!req.body._user) req.body._user = null
+  const baseSlug = slugify(title);
+  // let's check title for uniqueness
+  if (!req.body._user) req.body._user = null;
   let body = {
     content: content,
     _user: req.body._user,
@@ -20,21 +42,22 @@ const create = function (req, res) {
     date: Date.now(),
     highlights: getHighlights(content),
     title: title,
-    slug: slug(title)
+    slug: null  // will be set next
   };
 
-  // TODO: DELETE THIS!
-  const fs = require('fs');
-  fs.writeFile('./highlightr.html', content)//, encoding, callback);
-  // TODO: END
-  Article.create(body, function (err, article) {
-    // error handling
-    if (err) return res.status(500).json(err); // internal server error
-    // on success...
-    // inject extra property, for rendering by extension
-    article = article.toObject(); // convert from mongoose doc to js object
-    article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
-    res.json(article);
+  getUniqueSlug(baseSlug, '', (err, slug) => {
+    if (err) res.status(500).json(err);
+    // actual Article creation happens as callback
+    body.slug = slug;
+    Article.create(body, function (err, article) {
+      // error handling
+      if (err) return res.status(500).json(err); // internal server error
+      // on success...
+      // inject extra property, for rendering by extension
+      article = article.toObject(); // convert from mongoose doc to js object
+      article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
+      res.json(article);
+    });
   });
 }
 
