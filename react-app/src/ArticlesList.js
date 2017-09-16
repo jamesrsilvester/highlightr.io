@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-
-// TODO: handle onClick
 // TODO: ADD For Each Highlight
 
 class ArticlesList extends Component {
@@ -8,9 +6,10 @@ class ArticlesList extends Component {
     let mapArticles = this.props.articles.map(article => {
       return (
         <div className='row container'>
-          <div key={article._id} className='col offset s12 white hoverable'>
-            <h4>{article.title}</h4>
-            <a href={article.slug}></a>
+          <div key={article._id} className='col s12 white hoverable'>
+            <a href={article.slug}>
+              <h5>{article.title}</h5>
+            </a>
             <p>{article.highlights}</p>
           </div>
         </div>
