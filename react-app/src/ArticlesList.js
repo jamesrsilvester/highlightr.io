@@ -20,7 +20,6 @@ class ArticlesList extends Component {
       <div className='row container'>
         {mapArticles}
       </div>
-
     )
   }
 }

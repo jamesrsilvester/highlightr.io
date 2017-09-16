@@ -19,7 +19,7 @@ const fakeArticles = [
     url: "http://great.blog/posts/1",
     _user: null,
     date: Date.now(),
-    highlights: ['this is my first highlight', 'b', 'c'],
+    highlights: ['this is my first highlight', 'this is my second highlight', 'this is my third highlight'],
     slug: slug("My Great Blog: Chapter 1: The Story Begins")
   },
   {
@@ -28,7 +28,7 @@ const fakeArticles = [
     url: "http://great.blog/posts/2",
     _user: null,
     date: Date.now(),
-    highlights: ['this is my first highlight', 'b', 'c'],
+    highlights: ['this is my first highlight', 'this is my second highlight', 'this is my third highlight'],
     slug: slug("My Great Blog: Chapter 2: The Story Begins")
   },
   {
@@ -37,7 +37,7 @@ const fakeArticles = [
     url: "http://great.blog/posts/3",
     _user: null,
     date: Date.now(),
-    highlights: ['this is my first highlight', 'b', 'c'],
+    highlights: ['this is my first highlight', 'this is my second highlight', 'this is my third highlight'],
     slug: slug("My Great Blog: Chapter 3: Wow, We Still Going?")
   },
   {
@@ -46,7 +46,7 @@ const fakeArticles = [
     url: "http://ponder.ca/posts/1",
     _user: null,
     date: Date.now(),
-    highlights: ['this is my first highlight', 'b', 'c'],
+    highlights: ['this is my first highlight', 'this is my second highlight', 'this is my third highlight'],
     slug: slug("Have You Ever Pondered?")
   }
 ];
