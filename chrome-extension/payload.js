@@ -14,6 +14,7 @@ function highlight (selection) {
   const slctn = range.extractContents();
   const span = document.createElement('span');
   span.appendChild(slctn);
+  span.className = 'highlightr';  // branded class name
   span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
   // span.className = 'hovr';
   range.insertNode(span);
