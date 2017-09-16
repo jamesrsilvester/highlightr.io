@@ -14,9 +14,8 @@ function highlight (selection) {
   const slctn = range.extractContents();
   const span = document.createElement('span');
   span.appendChild(slctn);
-  span.className = 'highlightr';  // branded class name
+  span.className = 'highlightr-span';  // branded class name
   span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
-  // span.className = 'hovr';
   range.insertNode(span);
 }
 
@@ -35,9 +34,10 @@ function ajaxPost (data) {
 
 function selectionHandler (e) {
   const selection = window.getSelection();
-  if (selection.toString().length === 0) return;
+  if (selection.toString().length === 0) {
+    return;
+  }
   //chrome.runtime.sendMessage('Selection made');
-
   highlight(selection);
   // now clear selection
   selection.removeAllRanges();
@@ -62,13 +62,15 @@ function selectionHandler (e) {
 
 function turnOn () {
   state.isActive = true;
-  document.querySelector('body').classList.add('highlightr');
+  // for css selectors
+  document.querySelector('body').classList.add('highlightr-body');
   document.addEventListener('mouseup', selectionHandler);
 }
 
 function turnOff () {
   state.isActive = false;
-  document.querySelector('body').classList.remove('highlightr');
+  // for css selectors
+  document.querySelector('body').classList.remove('highlightr-body');
   document.removeEventListener('mouseup', selectionHandler);
 }
 

@@ -13,8 +13,8 @@ module.exports = {
   getHighlights: (content) => {
     const $ = cheerio.load(content);
     highlights = [];
-    // for each .highlightr span, grab the text and push it to our array
-    $('.highlightr').each((i, el) => highlights.push($(el).text()));
+    // for each .highlightr-span, grab the text and push it to our array
+    $('.highlightr-span').each((i, el) => highlights.push($(el).text()));
     return highlights;
   },
   getTitle: (content) => {
