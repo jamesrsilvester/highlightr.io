@@ -1,7 +1,33 @@
 import React, {Component} from 'react'
-import SingleArticle from './SingleArticle.js'
+import ArticlesList from './ArticlesList.js'
+import $ from 'jquery-ajax'
 
 class ArticlesContainer extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      articles: []
+    }
+  }
+
+  loadArticlesFromServer = () => {
+    $.ajax({
+      method: 'GET',
+      url: 'http://localhost:8080/api/articles'
+    })
+    .then((res) => {
+      this.setState(
+        {articles: res}
+      )
+      console.log(res);
+    })
+  }
+
+  componentDidMount = () => {
+    this.loadArticlesFromServer()
+  };
+
   render() {
     return (
       <div className='row grey1'>
@@ -12,9 +38,7 @@ class ArticlesContainer extends Component {
           </div>
         </div>
         <div className='row'>
-          <SingleArticle/>
-          <SingleArticle/>
-          <SingleArticle/>
+          <ArticlesList articles={this.state.articles}/>
         </div>
       </div>
     )

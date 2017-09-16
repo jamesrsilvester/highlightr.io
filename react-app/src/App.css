@@ -9,8 +9,13 @@
   background-color: #f7f8fa;
 }
 
-ul{
-  font-weight: bold;
+.grey2{
+  background-color: #E0E0E0;
+}
+
+.navtext {
+  /*font-weight: bold;*/
+  color: red !important;
 }
 
 body {
