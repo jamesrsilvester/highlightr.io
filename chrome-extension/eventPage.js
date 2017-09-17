@@ -1,5 +1,18 @@
+console.log("background script started");
+
 // Highlightr starting state is false.
 var isActive = false;
+
+//reload tabs on initial extension load.
+chrome.tabs.query({}, function(tabs) {
+  tabs.forEach(function (tab) {
+    //prevents extensions page from reloading
+    if (tab.title){
+      chrome.tabs.reload(tab.id);
+    };
+  });
+});
+
 //Event listener for default_action, set as extension icon.
 chrome.browserAction.onClicked.addListener(function(tab) {
   //check start status
