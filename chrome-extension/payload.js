@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:8080/api/articles/'
+const apiUrl = 'http://localhost:3000/api/articles/'
 
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
@@ -50,7 +50,7 @@ function selectionHandler (e) {
   let method; // either PATCH or POST, for AJAX
   $.ajax({
     method: state.mode,
-    url: 'http://localhost:8080/api/articles',
+    url: apiUrl,
     data: data,
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time

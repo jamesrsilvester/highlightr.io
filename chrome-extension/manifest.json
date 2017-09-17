@@ -11,7 +11,9 @@
   },
   "permissions": [
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "http://*/",
+    "https://*/"
   ],
   "content_scripts": [{
     "css": ["style.css"],
