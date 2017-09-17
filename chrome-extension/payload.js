@@ -1,7 +1,6 @@
-const apiUrl = 'http://localhost:3000/api/articles/'
-
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
+  slug: null, // set on first response
   isActive: false // turn true on message from background.js
 }
 
@@ -47,13 +46,17 @@ function selectionHandler (e) {
     _user: null,  // later set this from session
     url: document.location.href
   }
-  let method; // either PATCH or POST, for AJAX
+  let endpoint = 'http://localhost:8080/api/articles';
+  if (state.mode === 'PATCH') {
+    endpoint = `${endpoint}/${state.slug}`;
+  }
   $.ajax({
     method: state.mode,
-    url: apiUrl,
+    url: endpoint,
     data: data,
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time
+      state.slug = res.slug;
       alert('Your highlightr link is: ' + res.shareable);
     }
   });
