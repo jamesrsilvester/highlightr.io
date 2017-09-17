@@ -68,6 +68,7 @@ function turnOn () {
   // for css selectors
   document.querySelector('body').classList.add('highlightr-body');
   document.addEventListener('mouseup', selectionHandler);
+  console.log("highlighter turn on");
 }
 
 function turnOff () {
@@ -75,15 +76,17 @@ function turnOff () {
   // for css selectors
   document.querySelector('body').classList.remove('highlightr-body');
   document.removeEventListener('mouseup', selectionHandler);
+  console.log("highlighter turn off");
 }
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-  // If the received message has the expected format...
-  if (msg.message === 'clicked_browser_action') {
-    state.isActive ? turnOff() : turnOn();
-    // Call the specified callback, passing
-    // the web-page's DOM content as argument
-    //sendResponse(document.all[0].outerHTML);
+  //confirm message recieved.
+  console.log("message recieved from eventPage", msg.message);
+  if (msg.message === 'highlightr_isActive_true') {
+    turnOn();
+  }
+  if (msg.message === 'highlightr_isActive_false') {
+    turnOff();
   }
 });
