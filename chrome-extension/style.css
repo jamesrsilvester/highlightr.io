@@ -11,13 +11,9 @@
   background-color: rgba(142, 253, 178, 0.6)!important;
 }*/
 
-.hovr:hover {
-  /*background-color: rgba(142, 253, 178, 0.9)!important;*/
-  /*background-color: pink!important;*/
-}
 
 .highlightr-body {
   /* we can't simply use "body", as there may be multiple
    * in the DOM */
-  cursor: url(http://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
+  cursor: url(https://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
 }

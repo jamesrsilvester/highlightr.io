@@ -1,5 +1,3 @@
-const apiUrl = 'http://localhost:8080/api/articles/'
-
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
   slug: null, // set on first response
