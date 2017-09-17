@@ -1,8 +1,20 @@
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
   slug: null, // set on first response
-  isActive: false // turn true on message from background.js
+  isActive: false, // turn true on message from background.js
+  shareable: null
 }
+
+chrome.runtime.sendMessage({message: "requesting highlightr status"}, function (response){
+  if (response.status === true){
+    console.log("eventPage says turn highlightr on. Acquiescing...");
+    turnOn();
+  }
+  if (response.status === false){
+    console.log("eventPage says highlightr should be off. A Kuna Ma Tata.");
+    turnOff();
+  }
+})
 
 function highlight (selection) {
   const anchor = selection.anchorNode;
@@ -57,7 +69,8 @@ function selectionHandler (e) {
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time
       state.slug = res.slug;
-      alert('Your highlightr link is: ' + res.shareable);
+      state.shareable = res.shareable
+      console.log('Your highlightr link is: ' + res.shareable);
     }
   });
   //ajaxPost(data);
@@ -68,7 +81,7 @@ function turnOn () {
   // for css selectors
   document.querySelector('body').classList.add('highlightr-body');
   document.addEventListener('mouseup', selectionHandler);
-  console.log("highlighter turn on");
+  console.log("highlightr turned on");
 }
 
 function turnOff () {
@@ -76,17 +89,17 @@ function turnOff () {
   // for css selectors
   document.querySelector('body').classList.remove('highlightr-body');
   document.removeEventListener('mouseup', selectionHandler);
-  console.log("highlighter turn off");
+  console.log("highlightr turned off");
 }
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   //confirm message recieved.
   console.log("message recieved from eventPage", msg.message);
-  if (msg.message === 'highlightr_isActive_true') {
+  if (msg.message === 'highlightr is on') {
     turnOn();
   }
-  if (msg.message === 'highlightr_isActive_false') {
+  if (msg.message === 'highlightr is off') {
     turnOff();
   }
 });

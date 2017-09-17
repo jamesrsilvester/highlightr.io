@@ -15,5 +15,5 @@
 .highlightr-body {
   /* we can't simply use "body", as there may be multiple
    * in the DOM */
-  cursor: url(https://i.imgur.com/Rt7rOHX.png) 0 34, auto !important;
+  cursor: url(https://i.imgur.com/Rt7rOHX.png) 5 20, auto !important;
 }
