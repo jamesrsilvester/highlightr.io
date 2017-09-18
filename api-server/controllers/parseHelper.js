@@ -2,9 +2,9 @@ const cheerio = require('cheerio'); // jQuery-like library for servers!
 
 const randomString = function (inputString, outputLength) {
   if (outputLength < 1) return '';
-  let hash = '';
-  while (hash.length < outputLength) {
-    hash = Math.random().toString(36).slice(2);
+  let alphunumeric = '';
+  while (alphanumeric.length < outputLength) {
+    alphanumeric += Math.random().toString(36).slice(2);
   }
   return hash.slice(0, outputLength);
 }
@@ -27,11 +27,28 @@ module.exports = {
   },
   addFooter: (content, url) => {
     const $ = cheerio.load(content);
-    const $footer = $(`<footer>
-      <ul>
-        <li><a href="${url}">${url}</a></li>
-        <li>Brought to you by highlightr.io</li>
-      </ul>  
+    const $footer = $(`
+    <style>
+      footer#highlightr-footer {
+        margin: 0px;
+        padding: 1em;
+        display: block!important;
+        background-color: #bbb!important;
+        color: #000;
+        text-align: center;
+      }
+      #highlightr-footer a, #highlightr-footer a:visited, #highlightr-footer a:active {
+        color: #000;
+        text-decoration: none;
+      }
+      #highlightr-footer div {
+        display: inline-block;
+        margin: 0px 0.5em 0px 0.5em;
+      }
+    </style>
+    <footer id="highlightr-footer">&nbsp;
+      <div><a href="${url}">${url}</a></div>
+      <div style="float: right;"><a href="https://highlightr.io">highlightr.io</a></div>
     </footer>`);
     $('body').append($footer);
     console.log($.html());

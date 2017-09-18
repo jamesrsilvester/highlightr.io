@@ -45,12 +45,7 @@ app.patch('/api/articles/:slug', controllers.article.update)
 app.delete('/api/articles/:slug', controllers.article.destroy)
 
 // show page
-app.get('/highlights/:slug', function (req, res) {
-  db.Article.findOne({slug: req.params.slug}, function(err, article){
-    if (err) res.status(500).json(err);
-    res.send(article.content);
-  })
-})
+app.get('/highlights/:slug', controllers.article.showHtml)
 
 const port = process.env.API_PORT
 
