@@ -2,9 +2,9 @@ const cheerio = require('cheerio'); // jQuery-like library for servers!
 
 const randomString = function (inputString, outputLength) {
   if (outputLength < 1) return '';
-  let hash = '';
-  while (hash.length < outputLength) {
-    hash = Math.random().toString(36).slice(2);
+  let alphunumeric = '';
+  while (alphanumeric.length < outputLength) {
+    alphanumeric += Math.random().toString(36).slice(2);
   }
   return hash.slice(0, outputLength);
 }
