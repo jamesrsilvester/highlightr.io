@@ -77,7 +77,10 @@ function selectionHandler (e) {
 }
 
 function shareLink () {
-  alert('Your highlights for this page are available at: ' + state.shareable)
+  if (state.shareable){
+    alert('Your highlights for this page are available at: ' + state.shareable)
+  }
+  alert('Please make some highlights first!')
 };
 
 function turnOn () {
