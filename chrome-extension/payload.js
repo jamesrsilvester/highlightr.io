@@ -4,6 +4,7 @@ const state = {
   isActive: false // turn true on message from background.js
 }
 
+/*  works
 function highlight (selection) {
   const anchor = selection.anchorNode;
   const focus = selection.focusNode;
@@ -17,6 +18,59 @@ function highlight (selection) {
   span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
   range.insertNode(span);
 }
+*/
+
+function highlight (selection) {  // frontend for first recursive call...
+  traverseDom(document.querySelector('body'), { // start from root node
+    targets: [selection.anchorNode, selection.focusNode], // unordered
+    offsets: [selection.anchorOffset, selection.focusOffset], // same indices as `targets`
+    isActive: false // start highlighting?
+  })
+}
+
+function traverseDom (node, opt) {  // recursive
+  if (!opt.targets[0] && !opt.targets[1]) return; // if we reached both targets, return
+  let index = opt.targets.indexOf(node), anotherIndex = null;
+  if (index > -1) { // if we're at one of our targets...
+    if (!opt.isActive) {  // highlighting start...
+      opt.isActive = true;  // turn on
+      colorize(node, opt.offsets[index], node.data.length - 1); // fr offset to end
+    } else {  // highlighting end...
+      opt.isActive = false; // turn off
+      colorize(node, 0, opt.offsets[index]);  // colorize from start to offset
+    }
+    delete opt.targets[index];  // clear current node from targets
+    anotherIndex = opt.targets.indexOf(node);  // check for same node anchor/focus
+    if (anotherIndex > -1) opt.isActive = false;  // done if both were current node
+  }
+  if (node.childNodes.length === 0) { // if we reached end of branch
+    if (opt.isActive && index === -1) colorize(node, 0, node.data.length - 1); // don't colorize anchor/focus
+    return; // end of tree branch, we can return;
+  } else {  // child nodes exist
+    node.childNodes.forEach(childNode => traverseDom(childNode, opt));
+  }
+}
+
+function colorize(node, start, end) {
+  console.log('hit colorize');
+  console.log(node, start, end);
+  // if it is a text node, has a direct parent element, and has non-whitespace content...
+  if (node.nodeType === 3 && node.parentElement && node.data.trim().length > 0) {
+    // select appropriate range
+    const range = document.createRange();
+    range.setStart(node, start);
+    range.setEnd(node, end);
+
+    const span = document.createElement('span');  // create wrapper span
+    const extraction = range.extractContents(); // extract our selected text
+    span.appendChild(extraction);  // and insert it into our span
+    span.className = 'highlightr-span';  // add our branded class name
+    // color it
+    span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
+    range.insertNode(span); // insert our highlight back in place
+  }
+}
+
 
 /* TODO: vanillaJS solution
 function ajaxPost (data) {
