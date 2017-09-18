@@ -24,5 +24,17 @@ module.exports = {
       title = randomString(content, 8);
     }
     return title;
+  },
+  addFooter: (content, url) => {
+    const $ = cheerio.load(content);
+    const $footer = $(`<footer>
+      <ul>
+        <li><a href="${url}">${url}</a></li>
+        <li>Brought to you by highlightr.io</li>
+      </ul>  
+    </footer>`);
+    $('body').append($footer);
+    console.log($.html());
+    return $.html();
   }
 }

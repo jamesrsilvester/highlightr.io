@@ -3,6 +3,7 @@ const Article = require('../models').Article
 const parseHelper = require('./parseHelper')
 const getHighlights = parseHelper.getHighlights
 const getTitle = parseHelper.getTitle
+const addFooter = parseHelper.addFooter
 
 const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
   // track tries to prevent unending loop
@@ -30,7 +31,7 @@ const create = function (req, res) {
   console.log('Article create route called.');
   console.log(req.body.content);
   // create new instance based on body data
-  const content = req.body.content; // store in var, as next line requires it
+  const content = addFooter(req.body.content, req.body.url); // store in var, as next line requires it
   const title = getTitle(content);
   const baseSlug = slugify(title);
   // let's check title for uniqueness
