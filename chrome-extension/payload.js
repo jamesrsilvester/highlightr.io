@@ -34,7 +34,7 @@ function ajaxPost (data) {
 function selectionHandler (e) {
   const selection = window.getSelection();
   if (selection.toString().length === 0) {
-    return;
+    return; // if user selected nothing, return
   }
   //chrome.runtime.sendMessage('Selection made');
   highlight(selection);
@@ -47,16 +47,17 @@ function selectionHandler (e) {
     url: document.location.href
   }
   let endpoint = 'http://localhost:8080/api/articles';
-  if (state.mode === 'PATCH') {
+  if (state.mode === 'PATCH') { // PATCH route includes slug identifier
     endpoint = `${endpoint}/${state.slug}`;
   }
   $.ajax({
-    method: state.mode,
+    method: state.mode, // POST first time, PATCH subsequently
     url: endpoint,
     data: data,
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time
-      state.slug = res.slug;
+      state.slug = res.slug;  // store slug locally for PATCH route
+      // TODO: make present this in a more user-friendly manner
       alert('Your highlightr link is: ' + res.shareable);
     }
   });
