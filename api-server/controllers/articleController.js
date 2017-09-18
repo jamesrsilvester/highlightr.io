@@ -26,23 +26,31 @@ const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
   });
 }
 
+const showHtml = function (req, res) {
+  Article.findOne({slug: req.params.slug}, function(err, article) {
+    if (err) res.status(500).json(err);
+    article = article.toObject(); // cast from mongoose doc to plain object
+    const content = addFooter(article.content, article.url); // add branding
+    res.send(content);
+  });
+};
+
 const create = function (req, res) {
   // create one new article
   console.log('Article create route called.');
   console.log(req.body.content);
   // create new instance based on body data
-  const content = addFooter(req.body.content, req.body.url); // store in var, as next line requires it
-  const title = getTitle(content);
+  const title = getTitle(req.body.content);
   const baseSlug = slugify(title);
   // let's check title for uniqueness
   // TODO: validate all form data?
   if (!req.body._user) req.body._user = null;
   let body = {
-    content: content,
+    content: req.body.content,
     _user: req.body._user,
     url: req.body.url,
     date: Date.now(),
-    highlights: getHighlights(content),
+    highlights: getHighlights(req.body.content),
     title: title,
     slug: null  // will be set next
   };
@@ -131,5 +139,6 @@ module.exports = {
   index: index,
   show: show,
   update: update,
-  destroy: destroy
+  destroy: destroy,
+  showHtml: showHtml
 }

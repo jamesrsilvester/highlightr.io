@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const ArticleSchema = new Schema({
   title: String,  // read from <title></title>
   date: Date, // date highlighted
-  url: String,
+  url: String,  // source url
   slug: String, // slug to be used as url param
   content: String,  // markup
   highlights: [String], // plaintext contents of highlights
