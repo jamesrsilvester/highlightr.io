@@ -45,13 +45,21 @@ module.exports = {
         display: inline-block;
         margin: 0px 0.5em 0px 0.5em;
       }
+      #highlightr-footer span {
+        color: black;
+        font-weight: 600;
+      }
+      #highlightr-footer span:hover {
+        text-decoration: underline;
+      }
     </style>
     <footer id="highlightr-footer">&nbsp;
-      <div><a href="${url}">${url}</a></div>
-      <div style="float: right;"><a href="https://highlightr.io">highlightr.io</a></div>
+      <div>Personalized with <a href="http://www.highlightr.io"><span>highlightr.io</span></a> |<a href="${url}"> View Original</a></div>
     </footer>`);
     $('body').append($footer);
     console.log($.html());
     return $.html();
   }
 }
+// Pulled from footer temporarily
+{/* <div style="float: right;"><a href="https://highlightr.io">highlightr.io</a></div> */}
