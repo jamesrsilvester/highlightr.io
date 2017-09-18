@@ -39,7 +39,7 @@ function flatten (node, opt) {  // recursive
         opt.flat.push({
           node: node,
           start: opt.offsets[index],
-          end: node.data.length - 1
+          end: node.data.length
         });
       }
     } else {  // was active & hit target, thus we finish highlighting
