@@ -12,7 +12,7 @@ function highlight (selection) {  // frontend for first recursive call...
     flat: flat,
     isActive: false // start highlighting?
   });
-  flat.forEach((instruction) => {
+  flat.forEach((instruction) => { // colorize flat array
     colorize(instruction.node, instruction.start, instruction.end);
   });
 }
@@ -30,23 +30,36 @@ function flatten (node, opt) {  // recursive
         delete opt.targets[1];
         let firstIndex = (opt.offsets[0] < opt.offsets[1] ? 0 : 1);
         let secondIndex = (firstIndex + 1) % 2; // grabs other index
-        opt.flat.push({node: node, start: opt.offsets[firstIndex], end: opt.offsets[secondIndex]});
-        //colorize(node, opt.offsets[firstIndex], opt.offsets[secondIndex]);
+        opt.flat.push({
+          node: node,
+          start: opt.offsets[firstIndex],
+          end: opt.offsets[secondIndex]
+        });
       } else {  // this is just the start point
-        opt.flat.push({node: node, start: opt.offsets[index], end: node.data.length - 1});
-        //colorize(node, opt.offsets[index], node.data.length - 1); // fr offset to end
+        opt.flat.push({
+          node: node,
+          start: opt.offsets[index],
+          end: node.data.length - 1
+        });
       }
     } else {  // was active & hit target, thus we finish highlighting
       opt.isActive = false; // turn off
-      opt.flat.push({node: node, start: 0, end: opt.offsets[index]});
-      //colorize(node, 0, opt.offsets[index]);  // colorize from start to offset
+      opt.flat.push({
+        node: node,
+        start: 0,
+        end: opt.offsets[index]
+      });
     }
     delete opt.targets[index];  // clear current node from targets
   }
   if (node.childNodes.length === 0) { // if we reached end of branch
     if (opt.isActive && index === -1) {
-      opt.flat.push({node: node, start: 0, end: node.data.length - 1});
-      //colorize(node, 0, node.data.length - 1); // don't colorize anchor/focus
+      let end = node.data ? node.data.length : 0; // fix error w/prop of undef
+      opt.flat.push({
+        node: node,
+        start: 0,
+        end: end
+      });
     }
     return; // end of tree branch, we can return;
   } else {  // child nodes exist
@@ -55,8 +68,6 @@ function flatten (node, opt) {  // recursive
 }
 
 function colorize(node, start, end) {
-  console.log('hit colorize');
-  console.log(node.data, start, end);
   // if it is a text node, has a direct parent element, and has non-whitespace content...
   if (node.nodeType === 3 && node.parentElement && node.data.trim().length > 0) {
     // select appropriate range
@@ -71,8 +82,6 @@ function colorize(node, start, end) {
     // color it
     span.setAttribute('style', 'background-color: rgba(142, 253, 178, 0.6)!important');
     range.insertNode(span); // insert our highlight back in place
-  } else {
-    console.log('node skipped', node);
   }
 }
 
@@ -95,7 +104,6 @@ function selectionHandler (e) {
     return; // if user selected nothing, return
   }
   //chrome.runtime.sendMessage('Selection made');
-  console.log('made selection', selection);
   highlight(selection);
   // now clear selection
   selection.removeAllRanges();
