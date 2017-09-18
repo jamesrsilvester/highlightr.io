@@ -70,11 +70,15 @@ function selectionHandler (e) {
       state.mode = 'PATCH'; // don't POST next time
       state.slug = res.slug;
       state.shareable = res.shareable
-      console.log('Your highlightr link is: ' + res.shareable);
+      console.log('Your highlightr link is: ' + state.shareable);
     }
   });
   //ajaxPost(data);
 }
+
+function shareLink () {
+  alert('Your highlights for this page are available at: ' + state.shareable)
+};
 
 function turnOn () {
   state.isActive = true;
@@ -95,11 +99,14 @@ function turnOff () {
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   //confirm message recieved.
-  console.log("message recieved from eventPage", msg.message);
+  console.log("message recieved: ", msg.message);
   if (msg.message === 'highlightr is on') {
     turnOn();
   }
   if (msg.message === 'highlightr is off') {
     turnOff();
+  }
+  if (msg.message === 'provide shareable URL') {
+    shareLink();
   }
 });
