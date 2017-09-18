@@ -18,7 +18,8 @@
   "content_scripts": [{
     "css": ["style.css"],
     "js": ["jquery.js", "payload.js"],
-    "matches": ["<all_urls>"]
+    "matches": ["http://*/",
+    "https://*/"]
   }],
 
   "background": {

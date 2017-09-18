@@ -13,7 +13,7 @@ class ArticlesList extends Component {
       return (
         <div className='row container'>
           <div key={article._id} className='col s12 white hoverable'>
-            <a href={"http://localhost:8080/highlights/" + article.slug}>
+            <a target="_blank" href={"http://localhost:8080/highlights/" + article.slug}>
               <h5>{article.title}</h5>
             </a>
             {highlights}

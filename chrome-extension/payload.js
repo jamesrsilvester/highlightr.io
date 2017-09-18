@@ -1,7 +1,8 @@
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
   slug: null, // set on first response
-  isActive: false // turn true on message from background.js
+  isActive: false, // turn true on message from background.js
+  shareable: null
 }
 
 function highlight (selection) {  // frontend for first recursive call...
@@ -84,6 +85,17 @@ function colorize(node, start, end) {
     range.insertNode(span); // insert our highlight back in place
   }
 }
+  
+chrome.runtime.sendMessage({message: "requesting highlightr status"}, function (response){
+  if (response.status === true){
+    console.log("eventPage says turn highlightr on. Acquiescing...");
+    turnOn();
+  }
+  if (response.status === false){
+    console.log("eventPage says highlightr should be off. A Kuna Ma Tata.");
+    turnOff();
+  }
+})
 
 /* TODO: vanillaJS solution
 function ajaxPost (data) {
@@ -122,19 +134,24 @@ function selectionHandler (e) {
     data: data,
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time
-      state.slug = res.slug;  // store slug locally for PATCH route
-      // TODO: make present this in a more user-friendly manner
-      alert('Your highlightr link is: ' + res.shareable);
+      state.slug = res.slug;
+      state.shareable = res.shareable
+      console.log('Your highlightr link is: ' + state.shareable);
     }
   });
   //ajaxPost(data);
 }
+
+function shareLink () {
+  state.shareable ?  alert('Your highlights for this page are available at: ' + state.shareable) : alert('Please make some highlights first!')
+};
 
 function turnOn () {
   state.isActive = true;
   // for css selectors
   document.querySelector('body').classList.add('highlightr-body');
   document.addEventListener('mouseup', selectionHandler);
+  console.log("highlightr turned on");
 }
 
 function turnOff () {
@@ -142,15 +159,20 @@ function turnOff () {
   // for css selectors
   document.querySelector('body').classList.remove('highlightr-body');
   document.removeEventListener('mouseup', selectionHandler);
+  console.log("highlightr turned off");
 }
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-  // If the received message has the expected format...
-  if (msg.message === 'clicked_browser_action') {
-    state.isActive ? turnOff() : turnOn();
-    // Call the specified callback, passing
-    // the web-page's DOM content as argument
-    //sendResponse(document.all[0].outerHTML);
+  //confirm message recieved.
+  console.log("message recieved: ", msg.message);
+  if (msg.message === 'highlightr is on') {
+    turnOn();
+  }
+  if (msg.message === 'highlightr is off') {
+    turnOff();
+  }
+  if (msg.message === 'provide shareable URL') {
+    shareLink();
   }
 });
