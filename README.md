@@ -9,7 +9,7 @@
 - TBD 
 
 ## Wireframes / ERD
-![Wireframes](https://i.imgur.com/7GozdH8.png)
+![Wireframes](https://i.imgur.com/ijZQc7Z.jpg)
 
 ![ERD](https://i.imgur.com/OlyDPDq.jpg)
 
