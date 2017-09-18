@@ -85,7 +85,7 @@ function colorize(node, start, end) {
     range.insertNode(span); // insert our highlight back in place
   }
 }
-  
+
 chrome.runtime.sendMessage({message: "requesting highlightr status"}, function (response){
   if (response.status === true){
     console.log("eventPage says turn highlightr on. Acquiescing...");
@@ -182,7 +182,8 @@ function shareLink (url) {
       class="close"
       onClick="document.getElementById('highlightr-modal').style.display = 'none'">&times;</div>
     <div>
-      <div style="margin-bottom: 0.2em"><strong>Your link is:</strong></div>
+      <div style="margin-bottom: 1em"><img src="https://i.imgur.com/wEqPcvu.png"></div>
+      <div style="margin-bottom: 1em"><strong>Share Your Highlights:</strong></div>
       <div>
         <a class="highlightr-shareable-anchor" target="_blank" href="${url}">
           ${url}
