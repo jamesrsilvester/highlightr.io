@@ -8,7 +8,8 @@ const slug = require('slug')
 db.Article.remove({}, function (err) {
   if (err) return console.error(err);
   console.log('Successfully removed all articles from the DB.');
-  generateArticles();
+  // Just using the clear DB functionality at this point.
+  // generateArticles();
 });
 
 // fake articles
