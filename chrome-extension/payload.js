@@ -5,14 +5,19 @@ const state = {
 }
 
 function highlight (selection) {  // frontend for first recursive call...
-  traverseDom(document.querySelector('body'), { // start from root node
+  let flat = []; // flat array of DOM nodes with highlighting coordinates
+  flatten(document.querySelector('body'), { // start from root node
     targets: [selection.anchorNode, selection.focusNode], // unordered
     offsets: [selection.anchorOffset, selection.focusOffset], // same indices as `targets`
+    flat: flat,
     isActive: false // start highlighting?
-  })
+  });
+  flat.forEach((instruction) => {
+    colorize(instruction.node, instruction.start, instruction.end);
+  });
 }
 
-function traverseDom (node, opt) {  // recursive
+function flatten (node, opt) {  // recursive
   if (!opt.targets[0] && !opt.targets[1]) return; // if we reached both targets, return
   let index = opt.targets.indexOf(node);
   if (index > -1) { // if we're at one of our targets...
@@ -25,21 +30,27 @@ function traverseDom (node, opt) {  // recursive
         delete opt.targets[1];
         let firstIndex = (opt.offsets[0] < opt.offsets[1] ? 0 : 1);
         let secondIndex = (firstIndex + 1) % 2; // grabs other index
-        colorize(node, opt.offsets[firstIndex], opt.offsets[secondIndex]);
+        opt.flat.push({node: node, start: opt.offsets[firstIndex], end: opt.offsets[secondIndex]});
+        //colorize(node, opt.offsets[firstIndex], opt.offsets[secondIndex]);
       } else {  // this is just the start point
-        colorize(node, opt.offsets[index], node.data.length - 1); // fr offset to end
+        opt.flat.push({node: node, start: opt.offsets[index], end: node.data.length - 1});
+        //colorize(node, opt.offsets[index], node.data.length - 1); // fr offset to end
       }
     } else {  // was active & hit target, thus we finish highlighting
       opt.isActive = false; // turn off
-      colorize(node, 0, opt.offsets[index]);  // colorize from start to offset
+      opt.flat.push({node: node, start: 0, end: opt.offsets[index]});
+      //colorize(node, 0, opt.offsets[index]);  // colorize from start to offset
     }
     delete opt.targets[index];  // clear current node from targets
   }
   if (node.childNodes.length === 0) { // if we reached end of branch
-    if (opt.isActive && index === -1) colorize(node, 0, node.data.length - 1); // don't colorize anchor/focus
+    if (opt.isActive && index === -1) {
+      opt.flat.push({node: node, start: 0, end: node.data.length - 1});
+      //colorize(node, 0, node.data.length - 1); // don't colorize anchor/focus
+    }
     return; // end of tree branch, we can return;
   } else {  // child nodes exist
-    node.childNodes.forEach(childNode => traverseDom(childNode, opt));
+    node.childNodes.forEach(childNode => flatten(childNode, opt));
   }
 }
 
