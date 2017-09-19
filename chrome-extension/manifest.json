@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "highlightr.io",
+  "short_name":"highlightr",
   "description": "Highlight and Share",
   "version": "1.0",
   "icons": {
