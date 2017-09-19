@@ -124,7 +124,7 @@ function selectionHandler (e) {
     _user: null,  // later set this from session
     url: document.location.href
   }
-  let endpoint = 'http://api.highlightr.io/api/articles';
+  let endpoint = 'http://my.highlightr.io/api/articles';
   if (state.mode === 'PATCH') { // PATCH route includes slug identifier
     endpoint = `${endpoint}/${state.slug}`;
   }
