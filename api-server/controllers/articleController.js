@@ -26,6 +26,11 @@ const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
   });
 }
 
+const getShareable = function (slug) {
+  const port = parseInt(process.env.API_PORT, 10) === 80 ? '' : `:${process.env.API_PORT}`;
+  return `${process.env.BASE_URL}${port}/highlights/${slug}`
+}
+
 const showHtml = function (req, res) {
   Article.findOne({slug: req.params.slug}, function(err, article) {
     if (err) res.status(500).json(err);
@@ -65,7 +70,8 @@ const create = function (req, res) {
       // on success...
       // inject extra property, for rendering by extension
       article = article.toObject(); // convert from mongoose doc to js object
-      article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
+      //article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
+      article.shareable = getShareable(article.slug);
       res.json(article);
     });
   });
@@ -118,7 +124,8 @@ const update = function (req, res) {
       console.log(article.highlights);
       // inject extra property, for rendering by extension
       article = article.toObject(); // convert from mongoose doc to js object
-      article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
+      //article.shareable = `${process.env.BASE_URL}:${process.env.API_PORT}/highlights/${article.slug}`
+      article.shareable = getShareable(article.slug);
       res.json(article);
     });
   })
