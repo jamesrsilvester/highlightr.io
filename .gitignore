@@ -22,3 +22,6 @@ react-app/build
 
 *package-lock*
 yarn.lock
+
+# app-dependent
+highlightr.html
