@@ -14,7 +14,7 @@ class ArticlesContainer extends Component {
   loadArticlesFromServer = () => {
     $.ajax({
       method: 'GET',
-      url: 'http://localhost:8080/api/articles'
+      url: 'http://api.highlightr.io/api/articles'
     })
     .then((res) => {
       this.setState(

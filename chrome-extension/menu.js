@@ -9,7 +9,7 @@ function requestLink() {
 // Create a parent item and two children.
 var parent = chrome.contextMenus.create({"title": "Share Highlights", "onclick": requestLink});
 
-//Placehold for further menu options
+//Placeholder for adding additional menu options
 // var child1 = chrome.contextMenus.create({"title": "Share My Highlights", "parentId": parent, "onclick": requestLink});
 // var child2 = chrome.contextMenus.create(
 //   {"title": "Test", "parentId": parent, "onclick": genericOnClick});
