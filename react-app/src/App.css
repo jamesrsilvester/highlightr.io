@@ -35,3 +35,9 @@ body {
   background: #8EFDB2 !important;
   background-color: rgba(142, 253, 178, 0.9)!important;
 }
+
+nav .brand-logo {
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
