@@ -142,59 +142,68 @@ function selectionHandler (e) {
   //ajaxPost(data);
 }
 
-function shareLink (url) {
-  // inject our styles
-  $(`<style>
-    #highlightr-modal {
-      font-family: sans-serif;
-      box-sizing: border-box;
-      top: 2em;
-      left: 50%;
-      position: fixed;
-      display: none;
-      background-color: #fff;
-      border: 2px solid #000;
-      border-radius: 5px;
-      width: 26rem;
-      margin-left: -13rem;
-      padding: 1rem;
-      z-index: 99;
-      font-size: 1.375rem;
-      word-break: break-all;
-      text-align: center;
-    }
-    #highlightr-modal .close {
-      float: right;
-      cursor: pointer;
-      user-select: none;
-    }
-    #highlightr-modal a, #highlightr-modal a:visited, #highlightr-modal a:active {
-      color: #777;
-      text-decoration: none;
-    }
-    #highlightr-modal a:hover {
-      text-decoration: underline;
-    }
-  </style>`).appendTo('body');
+// inject our styles
+$(`<style>
+  #highlightr-modal {
+    font-family: sans-serif;
+    box-sizing: border-box;
+    top: 2em;
+    left: 50%;
+    position: fixed;
+    display: none;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 5px;
+    width: 26rem;
+    margin-left: -13rem;
+    padding: 1rem;
+    z-index: 99;
+    font-size: 1.375rem;
+    word-break: break-all;
+    text-align: center;
+  }
+  #highlightr-modal .close {
+    float: right;
+    cursor: pointer;
+    user-select: none;
+  }
+  #highlightr-modal a, #highlightr-modal a:visited, #highlightr-modal a:active {
+    color: #777;
+    text-decoration: none;
+  }
+  #highlightr-modal a:hover {
+    text-decoration: underline;
+  }
+</style>`).appendTo('body');
 
-  $(`<div id="highlightr-modal">
-    <div
-      class="close"
-      onClick="document.getElementById('highlightr-modal').style.display = 'none'">&times;</div>
+$(`<div id="highlightr-modal">
+  <div
+    class="close"
+    onClick="document.getElementById('highlightr-modal').style.display = 'none'">&times;</div>
+  <div>
+    <div style="margin-bottom: 0.2em"><strong>Your link is:</strong></div>
     <div>
       <div style="margin-bottom: 1em"><img src="https://i.imgur.com/wEqPcvu.png"></div>
       <div style="margin-bottom: 1em"><strong>Share Your Highlights:</strong></div>
       <div>
-        <a class="highlightr-shareable-anchor" target="_blank" href="${url}">
-          ${url}
+        <a class="highlightr-shareable-anchor" target="_blank" href="">
+          null
         </a>
       </div>
     </div>
-  </div>`).appendTo('body');
+  </div>
+</div>`).appendTo('body');
 
-  !url  // if we don't have a shareable link...
-    ? alert('Please make some highlights first!')
-    : document.getElementById('highlightr-modal').style.display = "inline-block";
+function shareLink (url) {
+  if (url) {
+    const $modal = $('#highlightr-modal');
+    const $anchor = $modal.find('a');
+    $anchor.text(url);
+    $anchor.attr('href', url);
+    $modal.css('display', 'inline-block');
+  } else {  // no shareable link provided
+    alert('Please make some highlights first!')
+  }
 };
 
 function turnOn () {
