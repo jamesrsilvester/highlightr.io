@@ -1,3 +1,5 @@
+console.log('highlightr.io is running on this page');
+
 const state = {
   mode: "POST", // after POSTing once, switch to PATCH
   slug: null, // set on first response
@@ -86,13 +88,10 @@ function colorize(node, start, end) {
   }
 }
 
-chrome.runtime.sendMessage({message: "requesting highlightr status"}, function (response){
+chrome.runtime.sendMessage({message: "get status"}, function (response){
   if (response.status === true){
-    console.log("eventPage says turn highlightr on. Acquiescing...");
     turnOn();
-  }
-  if (response.status === false){
-    console.log("eventPage says highlightr should be off. A Kuna Ma Tata.");
+  } if (response.status === false){
     turnOff();
   }
 })
@@ -128,18 +127,34 @@ function selectionHandler (e) {
   if (state.mode === 'PATCH') { // PATCH route includes slug identifier
     endpoint = `${endpoint}/${state.slug}`;
   }
-  $.ajax({
+  const ajaxObject = {
     method: state.mode, // POST first time, PATCH subsequently
     url: endpoint,
     data: data,
+    /*
     success: (res) => {
       state.mode = 'PATCH'; // don't POST next time
       state.slug = res.slug;
       state.shareable = res.shareable
       console.log('Your highlightr link is: ' + state.shareable);
     }
-  });
-  //ajaxPost(data);
+    */
+  };
+  //$.ajax(ajaxObject);
+  chrome.runtime.sendMessage({
+    message: 'ajax',
+    ajaxObject: ajaxObject
+  }, (res) => { // messaging response
+    if (!res) {
+      console.error('No response from background.js!', res);
+    } else {
+      console.log('response from background.js',res);
+      state.mode = 'PATCH'; // don't POST next time
+      state.slug = res.slug;
+      state.shareable = res.shareable;
+      console.log('Your highlightr link is: ' + state.shareable);
+    }
+  })
 }
 
 // inject our styles
@@ -210,7 +225,6 @@ function turnOn () {
   // for css selectors
   document.querySelector('body').classList.add('highlightr-body');
   document.addEventListener('mouseup', selectionHandler);
-  console.log("highlightr turned on");
 }
 
 function turnOff () {
@@ -218,13 +232,11 @@ function turnOff () {
   // for css selectors
   document.querySelector('body').classList.remove('highlightr-body');
   document.removeEventListener('mouseup', selectionHandler);
-  console.log("highlightr turned off");
 }
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   //confirm message recieved.
-  console.log("message recieved: ", msg.message);
   if (msg.message === 'highlightr is on') {
     turnOn();
   }

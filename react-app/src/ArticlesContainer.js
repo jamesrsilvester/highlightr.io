@@ -30,14 +30,13 @@ class ArticlesContainer extends Component {
 
   render() {
     return (
-      <div className='row grey1'>
+      <div className='row grey2'>
         <div className='row'>
-          <div className='col offset-m2 m7'>
-            <h1>James Silvester</h1>
-            <h4>King of the GIFS</h4>
+          <div className='col offset-m4 m6'>
           </div>
         </div>
         <div className='row'>
+          <h2 className="center-align">My Highlighted Articles</h2>
           <ArticlesList articles={this.state.articles}/>
         </div>
       </div>
