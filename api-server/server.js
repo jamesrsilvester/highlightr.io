@@ -10,7 +10,7 @@ const db = require('./models')
 const controllers = require('./controllers')
 
 // use body-parser middleware to populate req.body
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true, limit: '5mb'}))
 app.use(bodyParser.json())
 //app.use(bodyParser.raw())
 
