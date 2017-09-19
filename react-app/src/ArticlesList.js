@@ -5,7 +5,7 @@ class ArticlesList extends Component {
   render() {
     let mapArticles = this.props.articles.map(article => {
       const highlights = article.highlights.map((highlight, i) => {
-        const serverURL = "http://localhost:8080/highlights/";
+        // const serverURL = "http://my.highlightr.io/highlights/";
         return (
           <p className="oneHighlight grey-text text-darken-3" key={i}>{highlight}</p>
         )
@@ -13,7 +13,7 @@ class ArticlesList extends Component {
       return (
         <div className='row container'>
           <div key={article._id} className='col s12 white hoverable'>
-            <a target="_blank" href={"http://localhost:8080/highlights/" + article.slug}>
+            <a target="_blank" href={"http://my.highlightr.io/highlights/" + article.slug}>
               <h5>{article.title}</h5>
               {new Date(article.date).toDateString()}
             </a>
