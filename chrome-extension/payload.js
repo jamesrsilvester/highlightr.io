@@ -124,7 +124,7 @@ function selectionHandler (e) {
     _user: null,  // later set this from session
     url: document.location.href
   }
-  let endpoint = 'http://localhost:8080/api/articles';
+  let endpoint = 'http://api.highlightr.io/api/articles';
   if (state.mode === 'PATCH') { // PATCH route includes slug identifier
     endpoint = `${endpoint}/${state.slug}`;
   }
@@ -181,7 +181,6 @@ $(`<div id="highlightr-modal">
     class="close"
     onClick="document.getElementById('highlightr-modal').style.display = 'none'">&times;</div>
   <div>
-    <div style="margin-bottom: 0.2em"><strong>Your link is:</strong></div>
     <div>
       <div style="margin-bottom: 1em"><img src="https://i.imgur.com/wEqPcvu.png"></div>
       <div style="margin-bottom: 1em"><strong>Share Your Highlights:</strong></div>
