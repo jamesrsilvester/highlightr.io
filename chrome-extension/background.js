@@ -1,9 +1,19 @@
-console.log("background script started");
-
 // Highlightr starting state is false.
 var isActive = false;
 
-//reload tabs on initial extension load.
+function reloadTabs(query) {
+  chrome.tabs.query(query, tabs => {
+    tabs.forEach(tab => {
+      if (tab.title) {  // prevents extension page reload
+        chrome.tabs.reload(tab.id);
+      }
+    });
+  });
+}
+
+//reload all tabs on initial extension load.
+reloadTabs({});
+/*
 chrome.tabs.query({}, function(tabs) {
   tabs.forEach(function (tab) {
     //prevents extensions page from reloading
@@ -12,59 +22,71 @@ chrome.tabs.query({}, function(tabs) {
     };
   });
 });
+*/
 
-//Event listener for default_action, set as extension icon.
+//toggle highlightr on/off
 chrome.browserAction.onClicked.addListener(function(tab) {
   //check start status
   flipSwitch();
-  setIcon();
-  messageTabs();
+  updateIcon();
+  const obj = {
+    message: isActive ? 'highlightr is on' : 'highlightr is off'
+  }
+  messageTabs({}, obj);
 });
 
 function flipSwitch() {
   isActive = !isActive;
-  console.log("Highlightr set to", isActive);
 };
 
-function setIcon() {
-  if (isActive === true) {
-    chrome.browserAction.setIcon({path: "icon_on.png"});
-  }
-  if (isActive === false) {
-    chrome.browserAction.setIcon({path: "icon_off.png"});
-  };
+function updateIcon() {
+  const currentIcon = isActive ? "icon_on.png" : "icon_off.png";
+  chrome.browserAction.setIcon({path: currentIcon})
 };
 
-function messageTabs() {
-  // Finds ALL tabs:
-  chrome.tabs.query({}, function(tabs) {
-    //if we're active, tell tabs to turn on
-    if (isActive === true) {
-      //message confirms ON Status
-      var message = {
-        "message": "highlightr is on"
-      };
-      //send messages to each via loop
-      for (let i = 0; i < tabs.length; i++) {
-        chrome.tabs.sendMessage(tabs[i].id, message);
-      };
-    }
-    //if we're inactive, tell tabs to turn off
-    if (isActive === false) {
-      //message confirms OFF Status
-      var message = {
-        "message": "highlightr is off"
-      };
-      //send messages to each via loop
-      for (let i = 0; i < tabs.length; i++) {
-        chrome.tabs.sendMessage(tabs[i].id, message);
-      };
-    }
+function messageTabs(query, obj) {
+  // Finds tab(s)
+  chrome.tabs.query(query, function(tabs) {
+    tabs.forEach(tab => chrome.tabs.sendMessage(tab.id, obj));
   });
 }
 
-//respond to status check from any new or reloaded tab
-chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
-  console.log(message);
-  sendResponse({status:isActive});
+//respond to messages
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.message === 'get status') {
+    sendResponse({status: isActive});
+  } else if (message.message === 'ajax') {
+    // send ajax request
+    const obj = message.ajaxObject;
+    obj.success = (res) => {  // ajax response from server
+      if(sender.tab) {  // if we have a sender
+        console.log('ajax successful!');
+        console.log(res);
+        sendResponse(res);
+      } else {
+        //huh?!
+        console.error('ajax call has no sender?!');
+      }
+      /*
+      // message tabs
+      chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        if (tabs.length > 1) {
+          console.error('Unexpected behavior, active tabs are more than 1:', tabs);
+        } else {
+          
+        }
+      })
+      */
+    };
+    obj.error = (a, b, c) => {
+      console.error('AJAX failed!')
+      console.log(a);
+      console.log(b);
+      console.log(c);
+    };
+    console.log('about to AJAX request');
+    console.log(obj);
+    $.ajax(obj);
+    return true;  // since sendResponse gets called asynchronously
+  }
 });
