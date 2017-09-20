@@ -1,4 +1,5 @@
 const cheerio = require('cheerio'); // jQuery-like library for servers!
+const minify = require('html-minifier').minify;
 
 const randomString = function (inputString, outputLength) {
   if (outputLength < 1) return '';
@@ -25,11 +26,27 @@ module.exports = {
     }
     return title;
   },
+  getClean: content => {
+    const $ = cheerio.load(content);
+    //$('head').remove();
+    $('head script').remove();  // TODO: change to only those ie lte things
+
+    return $.html();
+    //console.log('minifying!');
+    //return 'yolo';
+    /*
+    return minify(content, {
+      removeComments: true,
+      collapseWhitespace: true
+    });
+    */
+  },
   addFooter: (content, url) => {
     const $ = cheerio.load(content);
     const $footer = $(`
     <style>
       footer#highlightr-footer {
+        font-family: sans-serif;
         margin: 0px;
         padding: 1em;
         display: block!important;
