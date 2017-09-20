@@ -26,10 +26,10 @@ module.exports = {
     }
     return title;
   },
-  getSlim: content => {
+  getClean: content => {
     const $ = cheerio.load(content);
     //$('head').remove();
-    $('head script').remove();  // this works!
+    $('head script').remove();  // TODO: change to only those ie lte things
 
     return $.html();
     //console.log('minifying!');
@@ -46,6 +46,7 @@ module.exports = {
     const $footer = $(`
     <style>
       footer#highlightr-footer {
+        font-family: sans-serif;
         margin: 0px;
         padding: 1em;
         display: block!important;

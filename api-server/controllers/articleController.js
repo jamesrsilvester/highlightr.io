@@ -3,7 +3,7 @@ const Article = require('../models').Article
 const parseHelper = require('./parseHelper')
 const getHighlights = parseHelper.getHighlights
 const getTitle = parseHelper.getTitle
-const getSlim = parseHelper.getSlim
+const getClean = parseHelper.getClean
 const addFooter = parseHelper.addFooter
 
 const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
@@ -38,7 +38,7 @@ const showHtml = function (req, res) {
     if (err) res.status(500).json(err);
     article = article.toObject(); // cast from mongoose doc to plain object
     let content = addFooter(article.content, article.url); // add branding
-    content = getSlim(content); // dump head...
+    content = getClean(content); // dump head...
     res.send(content);
   });
 };
