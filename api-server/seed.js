@@ -1,4 +1,4 @@
-require('dotenv').config({path: './env/development.env'});  // assume dev!
+require('dotenv').config({path: './env/production.env'});  // assume dev!
 
 // warning: must require models AFTER configuring environment
 const db = require('./models')

@@ -3,6 +3,7 @@ const Article = require('../models').Article
 const parseHelper = require('./parseHelper')
 const getHighlights = parseHelper.getHighlights
 const getTitle = parseHelper.getTitle
+const getSlim = parseHelper.getSlim
 const addFooter = parseHelper.addFooter
 
 const getUniqueSlug = function (baseSlug, postfix, callback, tries) {
@@ -32,10 +33,12 @@ const getShareable = function (slug) {
 }
 
 const showHtml = function (req, res) {
+  // api-server side show page
   Article.findOne({slug: req.params.slug}, function(err, article) {
     if (err) res.status(500).json(err);
     article = article.toObject(); // cast from mongoose doc to plain object
-    const content = addFooter(article.content, article.url); // add branding
+    let content = addFooter(article.content, article.url); // add branding
+    content = getSlim(content); // dump head...
     res.send(content);
   });
 };
