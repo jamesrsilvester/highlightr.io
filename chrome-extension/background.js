@@ -13,21 +13,11 @@ function reloadTabs(query) {
 
 //reload all tabs on initial extension load.
 reloadTabs({});
-/*
-chrome.tabs.query({}, function(tabs) {
-  tabs.forEach(function (tab) {
-    //prevents extensions page from reloading
-    if (tab.title){
-      chrome.tabs.reload(tab.id);
-    };
-  });
-});
-*/
 
 //toggle highlightr on/off
 chrome.browserAction.onClicked.addListener(function(tab) {
   //check start status
-  flipSwitch();
+  toggleActive();
   updateIcon();
   const obj = {
     message: isActive ? 'highlightr is on' : 'highlightr is off'
@@ -35,7 +25,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   messageTabs({}, obj);
 });
 
-function flipSwitch() {
+function toggleActive() {
   isActive = !isActive;
 };
 
@@ -67,16 +57,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         //huh?!
         console.error('ajax call has no sender?!');
       }
-      /*
-      // message tabs
-      chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        if (tabs.length > 1) {
-          console.error('Unexpected behavior, active tabs are more than 1:', tabs);
-        } else {
-          
-        }
-      })
-      */
+
     };
     obj.error = (a, b, c) => {
       console.error('AJAX failed!')
