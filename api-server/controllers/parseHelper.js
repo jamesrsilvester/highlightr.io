@@ -30,16 +30,7 @@ module.exports = {
     const $ = cheerio.load(content);
     //$('head').remove();
     $('head script').remove();  // TODO: change to only those ie lte things
-
     return $.html();
-    //console.log('minifying!');
-    //return 'yolo';
-    /*
-    return minify(content, {
-      removeComments: true,
-      collapseWhitespace: true
-    });
-    */
   },
   addFooter: (content, url) => {
     const $ = cheerio.load(content);
@@ -78,5 +69,3 @@ module.exports = {
     return $.html();
   }
 }
-// Pulled from footer temporarily
-{/* <div style="float: right;"><a href="https://highlightr.io">highlightr.io</a></div> */}
